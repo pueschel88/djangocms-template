@@ -290,6 +290,11 @@ if env.get('DB_ENGINE') == 'django.db.backends.postgresql':
             'PASSWORD': env.get('DB_PASSWORD', 'db'),
             'HOST': env.get('DB_HOST', 'localhost'),
             'PORT': env.get('DB_PORT', '5432'),
+            # this is required because django<2.2 is not compatible with psycopg2-binary=2.8 and that psycopg2 is not compatible with a uwsgi version on some servers, because the binaries are built against two different versions of openssl
+            # https://stackoverflow.com/questions/53498240/uwsgi-segmentation-fault-when-serving-a-django-application
+            'OPTIONS': {
+                'sslmode': 'disable',
+            },
         },
     }
 else:
