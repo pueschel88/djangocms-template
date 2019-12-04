@@ -307,6 +307,14 @@ else:
     }
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/var/run/memcached/memcached.sock',
+    }
+}
+
+
 ################################################################################
 ## === django packages === ##
 ################################################################################
