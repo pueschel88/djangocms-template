@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'backend.auth', # for USERNAME_FIELD = 'email', before `cms` since it has a User model
 
     'djangocms_admin_style', # before `django.contrib.admin`
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -94,7 +94,7 @@ INSTALLED_APPS = [
         'absolute', # required by aldryn_forms, adds absolute site URL vars to context
     'aldryn_forms.contrib.email_notifications',
     'djangocms_redirect',
-    
+
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',
     'djangocms_bootstrap4.contrib.bootstrap4_badge',
@@ -120,7 +120,7 @@ INSTALLED_APPS = [
     'backend.plugins.default.heading_element',
     'backend.plugins.default.hero_image_element',
     'backend.plugins.default.section_element',
-    
+
     'backend.error_handler',
     'backend.site_default_name_fix',
     'backend.articles',
@@ -138,13 +138,13 @@ MIDDLEWARE = [
 
     'lockdown.middleware.LockdownMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
-    
+
     # django cms requirements
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
-    
+
     # django cms optional
     'cms.middleware.utils.ApphookReloadMiddleware',
     'djangocms_redirect.middleware.RedirectMiddleware',
@@ -166,17 +166,17 @@ _TEMPLATE_CONTEXT_PROCESSORS =  [
     'django.template.context_processors.static',
 
     'django.contrib.messages.context_processors.messages',
-    
+
     # django-cms requirements
     'cms.context_processors.cms_settings',
     'sekizai.context_processors.sekizai',
-    
+
     # django-cms optional
     'cms.context_processors.cms_settings',
-    
+
     # aldryn_forms requirements
     'absolute.context_processors.absolute',
-    
+
     'django_settings_export.settings_export',
 ]
 TEMPLATES = [
@@ -254,7 +254,7 @@ class PatchedManifestStaticFilesStorage(storage.ManifestStaticFilesStorage):
     We use inlined SVG data url()s that contain url_encoded quotes which dont work
     Since these css url() assets are encoded already by webpack we can completely ignore the content of css files.
     Solution from: https://code.djangoproject.com/ticket/21080#comment:12
-    
+
     remove css from the patterns list so no css file introspection is done
     """
     patterns = ()
@@ -290,6 +290,11 @@ if env.get('DB_ENGINE') == 'django.db.backends.postgresql':
             'PASSWORD': env.get('DB_PASSWORD', 'db'),
             'HOST': env.get('DB_HOST', 'localhost'),
             'PORT': env.get('DB_PORT', '5432'),
+            # this is required because django<2.2 is not compatible with psycopg2-binary=2.8 and that psycopg2 is not compatible with a uwsgi version on some servers, because the binaries are built against two different versions of openssl
+            # https://stackoverflow.com/questions/53498240/uwsgi-segmentation-fault-when-serving-a-django-application
+            'OPTIONS': {
+                'sslmode': 'disable',
+            },
         },
     }
 else:
@@ -540,5 +545,17 @@ CKEDITOR_SETTINGS = {
     ],
     'config': {
         'allowedContent': True,
+    }
+}
+
+
+# DO NOT REMOVE attention, this needs to be set with deploy-django
+# If you don't believe this read:
+# https://stackoverflow.com/questions/6422440/django1-3-multiple-gunicorn-workers-caching-problems
+# https://stackoverflow.com/questions/25052248/django-default-cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/var/run/memcached/memcached.sock',
     }
 }

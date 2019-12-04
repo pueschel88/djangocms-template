@@ -51,3 +51,6 @@ pytz # a db of timezones
 psycopg2-binary
 sentry-sdk
 python-dotenv # imprints `.env` file into the OS envs list
+
+# needed to replace django's default caching method - do not remove!
+python-memcached
