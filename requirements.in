@@ -45,6 +45,7 @@ django-modeladmin-reorder # allows to reorder and regroup admin panel apps
 django-extensions # many django things that we don't really need, mainly for shell-plus
     ipython # for shell-plus
 django-solo
+django-widget-tweaks
 
 # python utils
 pytz # a db of timezones
