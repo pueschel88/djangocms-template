@@ -24,6 +24,16 @@ urlpatterns += i18n_patterns(
 handler500 = collect_500_error_user_feedback_view
 
 
+def sentry_trigger_error(request):
+    division_by_zero = 1 / 0
+
+
+urlpatterns = urlpatterns + [
+    path('sentry-debug/', sentry_trigger_error),
+]
+
+
+
 if settings.env.is_dev():
     urlpatterns = urlpatterns + staticfiles_urlpatterns() + [
         url(

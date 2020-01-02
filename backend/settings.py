@@ -25,7 +25,8 @@ SECRET_KEY = env.get_or_create_secret_key(base_dir=BASE_DIR)
 DJANGO_ENV_ENUM = env.DjangoEnv
 DJANGO_ENV: env.DjangoEnv = env.django_env()
 
-DEBUG: bool = env.is_debug()
+# TODO: rewrite env.is_debug() to only consider DJANGO_DEBUG
+DEBUG: bool = env.get_bool('DJANGO_DEBUG', True)
 
 ALLOWED_HOSTS = env.allowed_hosts()
 
@@ -281,38 +282,36 @@ BUSINESS_EMAIL_VANE = '%(name)s <%(address)s>' % {
 DEFAULT_FROM_EMAIL = BUSINESS_EMAIL_VANE
 
 
-if env.get('DB_ENGINE') == 'django.db.backends.postgresql':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env.get('DB_NAME', 'db'),
-            'USER': env.get('DB_USER', 'db'),
-            'PASSWORD': env.get('DB_PASSWORD', 'db'),
-            'HOST': env.get('DB_HOST', 'localhost'),
-            'PORT': env.get('DB_PORT', '5432'),
-            # this is required because django<2.2 is not compatible with psycopg2-binary=2.8 and that psycopg2 is not compatible with a uwsgi version on some servers, because the binaries are built against two different versions of openssl
-            # https://stackoverflow.com/questions/53498240/uwsgi-segmentation-fault-when-serving-a-django-application
-            'OPTIONS': {
-                'sslmode': 'disable',
-            },
+# this works out of the box with docker-compose.
+# If you want to run this project on your host system with the docker-compose postgres db, you have to set DB_HOST to 54320 in your .env file
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.get('DB_NAME', 'db'),
+        'USER': env.get('DB_USER', 'db'),
+        'PASSWORD': env.get('DB_PASSWORD', 'db'),
+        'HOST': env.get('DB_HOST', 'localhost'),
+        'PORT': env.get('DB_PORT', '5432'),
+        # this is required because django<2.2 is not compatible with psycopg2-binary=2.8 and that psycopg2 is not compatible with a uwsgi version on some servers, because the binaries are built against two different versions of openssl
+        # https://stackoverflow.com/questions/53498240/uwsgi-segmentation-fault-when-serving-a-django-application
+        'OPTIONS': {
+            'sslmode': 'disable'
         },
-    }
-else:
-    # noinspection PyUnresolvedReferences
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        },
-    }
+    },
+}
 
 
+# DO NOT REMOVE! attention, this needs to be set in order to work with deploy-django
+# If you don't believe this read:
+# https://stackoverflow.com/questions/6422440/django1-3-multiple-gunicorn-workers-caching-problems
+# https://stackoverflow.com/questions/25052248/django-default-cache
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': 'unix:/var/run/memcached/memcached.sock',
     }
 }
+
 
 
 ################################################################################
@@ -511,7 +510,7 @@ THUMBNAIL_PROCESSORS = [
     'easy_thumbnails.processors.filters',
 ]
 
-
+# grid size needs to be set in bootstrap 4 variables override as well. Check frontend.
 DJANGOCMS_BOOTSTRAP4_GRID_SIZE = 24
 DJANGOCMS_BOOTSTRAP4_GRID_COLUMN_CHOICES = [
     ('col', 'Column'),
@@ -556,14 +555,3 @@ CKEDITOR_SETTINGS = {
     }
 }
 
-
-# DO NOT REMOVE attention, this needs to be set with deploy-django
-# If you don't believe this read:
-# https://stackoverflow.com/questions/6422440/django1-3-multiple-gunicorn-workers-caching-problems
-# https://stackoverflow.com/questions/25052248/django-default-cache
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': 'unix:/var/run/memcached/memcached.sock',
-    }
-}
