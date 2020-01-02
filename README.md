@@ -22,6 +22,8 @@ If a docker container is already running, you can connect to it using `docker-co
 
 ## Setup
 
+Attention! docker-compose does NOT automatically start the db container. Make sure you do this manually before starting the web container!
+
 - `docker-compose build web`
 - `docker-compose up db`
 - `docker-compose up web`
@@ -31,6 +33,8 @@ If a docker container is already running, you can connect to it using `docker-co
     - `yarn start`
 
 Installing additional requirements:
+- add the package to `requirements.in`
+- then create a new requirements.txt with `docker-compose run --rm web pip-compile requirements.in > requirements.txt`
 - `docker-compose exec web pip install -r requirements.txt` or just simply `docker-compose build web`
 
 Testing:

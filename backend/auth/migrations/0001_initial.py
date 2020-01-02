@@ -8,9 +8,9 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     initial = True
-    
+
     dependencies = [
-        ('auth', '0011_update_proxy_permissions'),
+        ('auth', '__latest__'),
     ]
 
     operations = [
