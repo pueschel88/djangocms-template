@@ -1,3 +1,8 @@
+## HOW TO USE
+##
+## docker-compose run --rm web pip-compile requirements.in > requirements.txt
+##
+
 django-cms >= 3.7, < 3.8
 django < 2.2  # some of packages do not support yet 2.2 version
 
@@ -42,16 +47,21 @@ Jinja2 # jinja template lang
 django-jinja
 django-lockdown # allows to restrict access to the stage server
 django-modeladmin-reorder # allows to reorder and regroup admin panel apps
-django-extensions # many django things that we don't really need, mainly for shell-plus
+django-extensions # this is needed for deploy-django - do not remove!
     ipython # for shell-plus
 django-solo
 django-widget-tweaks
 
 # python utils
 pytz # a db of timezones
-psycopg2-binary
+
+psycopg2-binary<2.8  # https://github.com/divio/django-cms/issues/6666
+
 sentry-sdk
 python-dotenv # imprints `.env` file into the OS envs list
 
 # needed to replace django's default caching method - do not remove!
 python-memcached
+
+# used to compile requirements.in to requirements.txt
+pip-tools

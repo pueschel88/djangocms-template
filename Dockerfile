@@ -1,6 +1,6 @@
-FROM python:3.7-buster
+FROM python:3.7
 
-
+RUN apt-get update && apt-get install -y gettext
 RUN mkdir /code
 COPY . /code/
 WORKDIR /code/
