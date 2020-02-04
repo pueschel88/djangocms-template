@@ -152,6 +152,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 HTTP_PROTOCOL = 'http' if env.is_dev() else 'https'
+SECURE_HSTS_SECONDS = 31536000
+SESSION_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
