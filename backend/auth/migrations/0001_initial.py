@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        # __latest__ dependency stopped working on ubs at some point, was fixed by Dmytro
         ('auth', '0011_update_proxy_permissions'),
     ]
 
