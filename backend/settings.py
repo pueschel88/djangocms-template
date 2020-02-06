@@ -423,9 +423,19 @@ ADMIN_REORDER = [
         'app': 'filer',
         'models': [
             'filer.Folder',
+            'filer.Image',
             {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
         ],
     },
+    # {
+    #     'label': 'Files',
+    #     'app': 'filer',
+    #     'models': [
+    #         # 'backend_media_filer.FilerImageAdmin',
+    #         'filer.Folder',
+    #         {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
+    #     ],
+    # },
     {
         'label': 'Users',
         'app': 'auth',
@@ -527,6 +537,9 @@ CKEDITOR_SETTINGS = {
 }
 
 
-# THUMBNAIL_PROCESSORS = (
-#     'image_cropping.thumbnail_processors.crop_corners',
-# ) + thumbnail_settings.THUMBNAIL_PROCESSOR
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+)
+IMAGE_CROPPING_BACKEND = 'backend.media_filer.backends.django-filer.FilerBackend'
+IMAGE_CROPPING_BACKEND_PARAMS = {}
+FILER_IMAGE_MODEL = 'filer.Image'
