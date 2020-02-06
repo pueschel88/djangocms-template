@@ -8,6 +8,7 @@ from django.contrib.staticfiles import storage
 from env_settings import env
 # noinspection PyPackageRequirements
 from dotenv import load_dotenv, find_dotenv
+from easy_thumbnails.conf import Settings as thumbnail_settings
 
 
 ################################################################################
@@ -34,7 +35,7 @@ INSTALLED_APPS = [
     'backend.auth', # for USERNAME_FIELD = 'email', before `cms` since it has a User model
 
     'djangocms_admin_style', # before `django.contrib.admin`
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'lockdown',
     'admin_reorder',
     'django_extensions',
+    'image_cropping',
 
     # django cms base
     'cms',
@@ -93,7 +95,7 @@ INSTALLED_APPS = [
         'absolute', # required by aldryn_forms, adds absolute site URL vars to context
     'aldryn_forms.contrib.email_notifications',
     'djangocms_redirect',
-    
+
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',
     'djangocms_bootstrap4.contrib.bootstrap4_badge',
@@ -119,9 +121,10 @@ INSTALLED_APPS = [
     'backend.plugins.default.heading_element',
     'backend.plugins.default.hero_image_element',
     'backend.plugins.default.section_element',
-    
+
     'backend.error_handler',
     'backend.site_default_name_fix',
+    'backend.media_filer',
 ]
 
 MIDDLEWARE = [
@@ -136,13 +139,13 @@ MIDDLEWARE = [
 
     'lockdown.middleware.LockdownMiddleware',
     'admin_reorder.middleware.ModelAdminReorder',
-    
+
     # django cms requirements
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
-    
+
     # django cms optional
     'cms.middleware.utils.ApphookReloadMiddleware',
     'djangocms_redirect.middleware.RedirectMiddleware',
@@ -164,17 +167,17 @@ _TEMPLATE_CONTEXT_PROCESSORS =  [
     'django.template.context_processors.static',
 
     'django.contrib.messages.context_processors.messages',
-    
+
     # django-cms requirements
     'cms.context_processors.cms_settings',
     'sekizai.context_processors.sekizai',
-    
+
     # django-cms optional
     'cms.context_processors.cms_settings',
-    
+
     # aldryn_forms requirements
     'absolute.context_processors.absolute',
-    
+
     'django_settings_export.settings_export',
 ]
 TEMPLATES = [
@@ -522,3 +525,8 @@ CKEDITOR_SETTINGS = {
         'allowedContent': True,
     }
 }
+
+
+# THUMBNAIL_PROCESSORS = (
+#     'image_cropping.thumbnail_processors.crop_corners',
+# ) + thumbnail_settings.THUMBNAIL_PROCESSOR
