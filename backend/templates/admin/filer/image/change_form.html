@@ -1,5 +1,5 @@
 {% extends "admin/filer/change_form.html" %}
-{% load i18n admin_modify staticfiles %}
+{% load i18n admin_modify staticfiles thumbnail %}
 
 {% block extrahead %}
     {{ block.super }}
@@ -31,6 +31,8 @@
 {% endblock %}
 
 {% block object-tools %}
+    GLOBAL
+    {% thumbnail image 430x360 box=image.cropping %}
     {% if change and not is_popup %}
         <ul class="object-tools">
             <li><a href="{% url history_url object_id %}" class="historylink">{% trans "History" %}</a></li>

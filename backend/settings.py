@@ -427,15 +427,14 @@ ADMIN_REORDER = [
             {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
         ],
     },
-    # {
-    #     'label': 'Files',
-    #     'app': 'filer',
-    #     'models': [
-    #         # 'backend_media_filer.FilerImageAdmin',
-    #         'filer.Folder',
-    #         {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
-    #     ],
-    # },
+    {
+        'label': 'Media',
+        'app': 'backend_media_filer',
+        'models': [
+            'backend_media_filer.FilerImage',
+            'backend_media_filer.FilerFolder',
+        ],
+    },
     {
         'label': 'Users',
         'app': 'auth',
@@ -542,4 +541,5 @@ THUMBNAIL_PROCESSORS = (
 )
 IMAGE_CROPPING_BACKEND = 'backend.media_filer.backends.django-filer.FilerBackend'
 IMAGE_CROPPING_BACKEND_PARAMS = {}
-FILER_IMAGE_MODEL = 'filer.Image'
+# FILER_IMAGE_MODEL = 'filer.Image'
+# FILER_IMAGE_MODEL = 'backend_media_filer.FilerImage'

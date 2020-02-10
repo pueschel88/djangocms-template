@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block object-tools %}
-    {% thumbnail yourmodel.image 430x360 box=yourmodel.cropping crop detail %}
+    MODULE
     {% if change and not is_popup %}
         <ul class="object-tools">
             <li><a href="{% url history_url object_id %}" class="historylink">{% trans "History" %}</a></li>
@@ -40,5 +40,5 @@
             {% endif%}
         </ul>
     {% endif %}
-    {% include "admin/filer/tools/detail_info.html" with detail=True %}
+    {% include "admin/tools/detail_info.html" with detail=True %}
 {% endblock %}
