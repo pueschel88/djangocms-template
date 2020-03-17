@@ -17,6 +17,11 @@
                         </div>
                     </div>
                 {% endif %}
+
+{#                <div>#}
+{#                    {{ adminform.form.cropping }}#}
+{#                </div>#}
+
                 <div class="text-left">
                     <a href="{{ original.url }}" target="_blank" class="btn">
                         {% if file %}
@@ -31,6 +36,12 @@
         <div class="image-details-right">
             {% if original.file_type or original.modified_at or original.uploaded_at or original.width or original.height or original.size %}
                 <dl class="image-details">
+                        <dt>
+                            Crop
+                        </dt>
+                        <dd>
+                            <img src="{% thumbnail original 430x360 box=original.cropping crop %}">
+                        </dd>
                     {% if original.file_type %}
                         <dt>{% trans "Type" %}</dt>
                         <dd>{{ original.extension|upper }} {{ original.file_type }}</dd>
@@ -52,9 +63,7 @@
                         <dd>{{ original.uploaded_at }}</dd>
                     {% endif %}
                 </dl>
-{#                {% thumbnail yourmodel.image 430x360 box=yourmodel.cropping crop detail %}#}
-                {% thumbnail original 430x360 box=original.cropping %}
-                <img src="{% thumbnail original 430x360 %}" alt="">
+
                 <div class="image-actions">
                     <ul class="actions-list">
                         <li>

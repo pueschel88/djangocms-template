@@ -115,7 +115,6 @@
                                             <a href="#" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id|unlocalize }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;"
                                                 title="{% trans 'Select this file' %}">
                                         {% elif has_change_permission %}
-                                            {{ file.get_admin_change_url }}{% filer_admin_context_url_params %} <br/>
                                             <a href="{{ file.get_admin_change_url }}{% filer_admin_context_url_params %}"
                                                 title="{% blocktrans with file.label as item_label %}Change '{{ item_label }}' details{% endblocktrans %}">
                                         {% endif %}

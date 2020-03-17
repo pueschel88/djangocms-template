@@ -4,7 +4,6 @@ from image_cropping.widgets import CropWidget
 
 
 class FilerCropWidget(AdminImageWidget, CropWidget):
-
     def render(self, name, value, attrs=None):
         if value:
             file_obj = File.objects.get(pk=value)
@@ -17,6 +16,5 @@ class FilerCropWidget(AdminImageWidget, CropWidget):
                 'data-org-width': file_obj.width,
                 'data-org-height': file_obj.height,
                 'style': 'display:none',
-
             })
-        return super(FilerCropWidget, self).render(name, value, attrs)
+        return super().render(name, value, attrs)

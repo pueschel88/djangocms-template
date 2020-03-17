@@ -420,19 +420,13 @@ ADMIN_REORDER = [
     },
     {
         'label': 'Files',
-        'app': 'filer',
-        'models': [
-            'filer.Folder',
-            'filer.Image',
-            {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
-        ],
-    },
-    {
-        'label': 'Media',
         'app': 'backend_media_filer',
         'models': [
-            'backend_media_filer.FilerImage',
+            # 'filer.Folder',
             'backend_media_filer.FilerFolder',
+            'backend_media_filer.FilerImage',
+            # 'filer.Image',
+            {'model': 'filer.ThumbnailOption', 'label': 'Images thumbnail options'},
         ],
     },
     {
@@ -488,7 +482,8 @@ THUMBNAIL_PROCESSORS = [
     'easy_thumbnails.processors.autocrop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
-]
+    'image_cropping.thumbnail_processors.crop_corners',
+] + list(thumbnail_settings.THUMBNAIL_PROCESSORS)
 
 
 DJANGOCMS_BOOTSTRAP4_GRID_SIZE = 24
@@ -536,10 +531,6 @@ CKEDITOR_SETTINGS = {
 }
 
 
-THUMBNAIL_PROCESSORS = (
-    'image_cropping.thumbnail_processors.crop_corners',
-)
 IMAGE_CROPPING_BACKEND = 'backend.media_filer.backends.django-filer.FilerBackend'
 IMAGE_CROPPING_BACKEND_PARAMS = {}
-# FILER_IMAGE_MODEL = 'filer.Image'
-# FILER_IMAGE_MODEL = 'backend_media_filer.FilerImage'
+FILER_IMAGE_MODEL = 'backend_media_filer.FilerImage'
