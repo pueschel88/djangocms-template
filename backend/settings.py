@@ -9,14 +9,12 @@ from env_settings import env
 # noinspection PyPackageRequirements
 from dotenv import load_dotenv, find_dotenv
 
-
 ################################################################################
 ## === django core === ##
 ################################################################################
 
 
 load_dotenv(find_dotenv())
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,11 +28,10 @@ DEBUG: bool = env.get_bool('DJANGO_DEBUG', True)
 
 ALLOWED_HOSTS = env.allowed_hosts()
 
-
 INSTALLED_APPS = [
-    'backend.auth', # for USERNAME_FIELD = 'email', before `cms` since it has a User model
+    'backend.auth',  # for USERNAME_FIELD = 'email', before `cms` since it has a User model
 
-    'djangocms_admin_style', # before `django.contrib.admin`
+    'djangocms_admin_style',  # before `django.contrib.admin`
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,12 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
     # django packages
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'cuser', # for USERNAME_FIELD = 'email' in backend.auth
+    'cuser',  # for USERNAME_FIELD = 'email' in backend.auth
     'parler',
     'gtm',
     'solo',  # django-solo
@@ -57,8 +53,8 @@ INSTALLED_APPS = [
     'adminsortable2',
     'test_user',
     'filer',
-        'easy_thumbnails',
-        'mptt',
+    'easy_thumbnails',
+    'mptt',
     'django_jinja',
     'lockdown',
     'admin_reorder',
@@ -66,11 +62,10 @@ INSTALLED_APPS = [
 
     # django cms base
     'cms',
-        'menus',
-        'treebeard',
-        'sekizai',
-        'django.contrib.sites',
-
+    'menus',
+    'treebeard',
+    'sekizai',
+    'django.contrib.sites',
 
     # django cms plugins
     'djangocms_text_ckeditor',
@@ -90,9 +85,9 @@ INSTALLED_APPS = [
     'aldryn_translation_tools',  # not sure what it does, required by many aldryn packages
     'aldryn_forms_bs4_templates',
     'aldryn_forms',
-        'captcha', # required by aldryn_forms
-        'emailit', # required by aldryn_forms
-        'absolute', # required by aldryn_forms, adds absolute site URL vars to context
+    'captcha',  # required by aldryn_forms
+    'emailit',  # required by aldryn_forms
+    'absolute',  # required by aldryn_forms, adds absolute site URL vars to context
     'aldryn_forms.contrib.email_notifications',
     'djangocms_redirect',
 
@@ -158,8 +153,7 @@ SESSION_COOKIE_SECURE = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
-_TEMPLATE_CONTEXT_PROCESSORS =  [
+_TEMPLATE_CONTEXT_PROCESSORS = [
     'django.contrib.auth.context_processors.auth',
     'django.template.context_processors.i18n',
     'django.template.context_processors.debug',
@@ -208,13 +202,11 @@ TEMPLATES = [
     },
 ]
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
 ]
 
 AUTH_USER_MODEL = 'backend_auth.User'
-
 
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
@@ -239,7 +231,6 @@ TIME_INPUT_FORMATS = [
     '%H:%M:%S',  # '14:30:59'
     '%H:%M:%S.%f',  # '14:30:59.000200'
 ]
-
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
@@ -266,14 +257,12 @@ class PatchedManifestStaticFilesStorage(storage.ManifestStaticFilesStorage):
 
 STATICFILES_STORAGE = 'backend.settings.PatchedManifestStaticFilesStorage'
 
-
 EMAIL_BACKEND = env.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = env.get('EMAIL_HOST', '')
 EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_HOST_USER = env.get('EMAIL_HOST_USER', '')
 EMAIL_PORT = env.get('EMAIL_PORT', '')
 EMAIL_USE_TLS = env.get('EMAIL_USE_TLS', False)
-
 
 BUSINESS_NAME = env.get('BUSINESS_NAME', 'backend')
 BASE_URL = env.get('BASE_URL', 'http://localhost:8000')
@@ -283,7 +272,6 @@ BUSINESS_EMAIL_VANE = '%(name)s <%(address)s>' % {
     'address': BUSINESS_EMAIL,
 }
 DEFAULT_FROM_EMAIL = BUSINESS_EMAIL_VANE
-
 
 # this works out of the box with docker-compose.
 # If you want to run this project on your host system with the docker-compose postgres db, you have to set DB_HOST to 54320 in your .env file
@@ -303,7 +291,6 @@ DATABASES = {
     },
 }
 
-
 # DO NOT REMOVE! attention, this needs to be set in order to work with deploy-django
 # If you don't believe this read:
 # https://stackoverflow.com/questions/6422440/django1-3-multiple-gunicorn-workers-caching-problems
@@ -315,8 +302,6 @@ CACHES = {
     }
 }
 
-
-
 ################################################################################
 ## === django packages === ##
 ################################################################################
@@ -324,9 +309,7 @@ CACHES = {
 
 GTM_CONTAINER_ID = env.get('GTM_CONTAINER_ID', 'GTM-1234')
 
-
 WEBPACK_DEV_URL = env.get('WEBPACK_DEV_URL', default='http://localhost:8090/assets/')
-
 
 SETTINGS_EXPORT = [
     'WEBPACK_DEV_URL',
@@ -336,7 +319,6 @@ SETTINGS_EXPORT = [
     'SENTRY_IS_ENABLED',
     'SENTRY_DSN',
 ]
-
 
 SENTRY_IS_ENABLED = env.get_bool('SENTRY_IS_ENABLED', False)
 SENTRY_DSN = env.get('SENTRY_DSN')
@@ -386,9 +368,7 @@ LOGGING = {
     },
 }
 
-
 TEST_USER_USERNAME_AND_PASS = 'test@what.digital'
-
 
 LOCKDOWN_ENABLED = env.get_bool('LOCKDOWN_ENABLED', False)
 LOCKDOWN_FORM = 'lockdown.forms.AuthForm'
@@ -396,7 +376,6 @@ LOCKDOWN_REMOTE_ADDR_EXCEPTIONS = [
     '127.0.0.1',
     '::1',
 ]
-
 
 # allauth
 AUTHENTICATION_BACKENDS = [
@@ -414,7 +393,6 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 AUTHENTICATED_LOGIN_REDIRECTS = False  # otherwise admins can't access the login view
 LOGIN_REDIRECT_URL = '/'
 CONFIRM_EMAIL_ON_GET = True
-
 
 ADMIN_REORDER = [
     {
@@ -468,7 +446,6 @@ ADMIN_REORDER = [
     },
 ]
 
-
 ################################################################################
 ## === django-cms core === ##
 ################################################################################
@@ -499,7 +476,6 @@ CMS_LANGUAGES = {
     }
 }
 
-
 ################################################################################
 ## === django-cms packages === ##
 ################################################################################
@@ -523,9 +499,7 @@ DJANGOCMS_BOOTSTRAP4_GRID_COLUMN_CHOICES = [
     ('', 'Empty'),
 ]
 
-
 DJANGOCMS_GOOGLEMAP_API_KEY = env.get('DJANGOCMS_GOOGLEMAP_API_KEY', '123')
-
 
 CKEDITOR_SETTINGS = {
     'language': '{{ language }}',
@@ -544,6 +518,8 @@ CKEDITOR_SETTINGS = {
         ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
         ['Source']
     ],
+    # Cannot use pixel sizes here because it is not responsive. If we hard code pixels for desktop there is no way how this can look good on mobile phones. That's why we use root em (rem). It's based on the font size defined on the html tag (root tag).
+    'fontSize_sizes': '0.5rem;0.6rem;0.7rem;0.8rem;0.9rem;1.1rem;1rem;1.2rem;1.3rem;1.4rem;1.5rem;1.6rem;2rem;2.3rem;2.5rem;3rem;4rem;5rem;6rem;7rem',
     'stylesSet': [
         {'name': 'Float Left', 'element': 'span', 'attributes': {'class': 'float-left'}},
         {'name': 'H1', 'element': 'h1'},
@@ -551,10 +527,9 @@ CKEDITOR_SETTINGS = {
     'contentsCss': [
         f'{WEBPACK_DEV_URL}global.css' if env.is_dev() else f'{STATIC_URL}/dist/global.css',
         f'{WEBPACK_DEV_URL}vendor.css' if env.is_dev() else f'{STATIC_URL}/dist/vendor.css',
-        f'{STATIC_URL}/djangocms_text_ckeditor/ckeditor/contents.css', # default required styles
+        f'{STATIC_URL}/djangocms_text_ckeditor/ckeditor/contents.css',  # default required styles
     ],
     'config': {
         'allowedContent': True,
     }
 }
-
