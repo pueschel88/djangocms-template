@@ -10,8 +10,8 @@ if (isCmsPresent) {
 function initScriptReloadListener() {
     const cmsPageEditedEvent = 'cms-content-refresh';
     CMS.$(window).on(cmsPageEditedEvent, () => {
-        $('script[data-is-reload-on-page-edit]').each(() => {
-            forceScriptReload.call(this)
+        $('script[data-is-reload-on-page-edit]').each((index, element) => {
+            forceScriptReload.call(element);
         })
     })
 }
